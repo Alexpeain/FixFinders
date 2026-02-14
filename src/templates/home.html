@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="text-center py-5">
+    <h1 class="display-5 fw-bold mb-3">Find Trusted Help in Muse</h1>
+    <p class="lead text-muted mb-4">Plumbers, Electricians, and Maids. Verified Local Pros.</p>
+    
+    <!-- Big Search Bar -->
+    <form action="{% url 'providers:list' %}" method="get" class="d-flex justify-content-center mb-5">
+        <div class="input-group" style="max-width: 500px;">
+            <select name="town" class="form-select" style="max-width: 120px;">
+                <option value="Muse">Muse</option>
+                <option value="Namkham">Namkham</option>
+            </select>
+            <input type="text" name="q" class="form-control" placeholder="What needs fixing? (e.g. Water)">
+            <button class="btn btn-primary" type="submit">Search</button>
+        </div>
+    </form>
+</div>
+
+<!-- Categories Grid -->
+<h4 class="mb-3">Browse by Service</h4>
+<div class="row g-3">
+    {% for category in categories %}
+    <div class="col-6 col-md-4">
+        <a href="{% url 'providers:list' %}?category={{ category.slug }}" class="text-decoration-none">
+            <div class="card h-100 border-0 shadow-sm text-center py-4 hover-effect">
+                <div class="display-4 mb-2">{{ category.icon }}</div>
+                <h6 class="text-dark">{{ category.name }}</h6>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

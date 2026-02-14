@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h3>Results for "{{ current_town }}"</h3>
+    <a href="{% url 'providers:home' %}" class="text-decoration-none">Change Town</a>
+</div>
+
+<div class="row">
+    {% for provider in providers %}
+    <div class="col-12 col-md-6 mb-3">
+        <div class="card shadow-sm border-0">
+            <div class="card-body d-flex align-items-center">
+                <!-- If they have a photo, show it, else generic icon -->
+                <div class="me-3 bg-light rounded-circle d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                    <span style="font-size: 1.5rem;">👤</span>
+                </div>
+                
+                <div class="flex-grow-1">
+                    <h5 class="mb-1 text-primary">
+                        <a href="{% url 'providers:detail' provider.pk %}" class="text-decoration-none">{{ provider.business_name }}</a>
+                    </h5>
+                    <p class="mb-1 text-muted small">{{ provider.category.name }} • {{ provider.township }}</p>
+                    
+                    {% if provider.is_verified %}
+                    <div class="verified-badge">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-patch-check-fill" viewBox="0 0 16 16">
+                            <path d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.896-.011a2.89 2.89 0 0 0-2.924 2.924l.01.896-.636.622a2.89 2.89 0 0 0 0 4.134l.638.622-.011.896a2.89 2.89 0 0 0 2.924 2.924l.896-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.638.896.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.896.636-.622a2.89 2.89 0 0 0 0-4.134l-.638-.622.011-.896a2.89 2.89 0 0 0-2.924-2.924l-.896.01-.622-.636zm.93 5.39a.5.5 0 0 1 .71 0l3 3a.5.5 0 0 1-.71.71L9 5.71l-1.65 1.64a.5.5 0 0 1-.71-.71l2-2z"/>
+                        </svg>
+                        ID Verified
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <a href="tel:{{ provider.phone_number }}" class="btn btn-success btn-sm">📞 Call</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center py-5">
+        <p class="text-muted">No providers found in this area yet.</p>
+        <a href="{% url 'providers:home' %}" class="btn btn-outline-primary">Browse All</a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
