@@ -1,28 +1,47 @@
-# Create project directory
+# FixFinders
 
+FixFinders is a service provider directory app, a Django-based backend application being developed to connect users with local service providers in Myanmar.  
+It focuses on practical features like search, listings, and bookings tailored to the local context.
+
+---
+
+## Tech Stack
+
+- Python 3
+- Django
+- PostgreSQL (for production; SQLite may be used locally)
+- uv (package and environment manager)
+- Gunicorn (for production web server)
+- Render (for hosting)
+
+---
+
+## Project Setup (from scratch)
+
+> This section shows how the project was originally created using `uv` and Django.  
+> You **do not** need to run these steps again if you already cloned this repo.
+
+```bash
+# 1. Create project directory
 mkdir fix-finder
 cd fix-finder
 
-# Initialize uv project (creates pyproject.toml and .python-version)
-
+# 2. Initialize uv project (creates pyproject.toml and .python-version)
 uv init
 
-# Create virtual environment (lightning fast)
-
+# 3. Create virtual environment (lightning fast)
 uv venv
 
-# Add dependencies (updates pyproject.toml & installs to venv)
-
-uv add django psycopg2-binary pillow django-cleanup
-
-# Activate on Windows (Git Bash/PowerShell)
-
+# 4. Activate virtual environment
+# On Windows (Git Bash / PowerShell)
 source .venv/Scripts/activate
 
-# OR on Mac/Linux
-
+# On Mac / Linux
 source .venv/bin/activate
 
-# Create Django project
+# 5. Add core dependencies (updates pyproject.toml & installs to venv)
+uv add django psycopg2-binary pillow django-cleanup
 
+# 6. Create Django project (only once when starting the project)
 django-admin startproject config .
+```
