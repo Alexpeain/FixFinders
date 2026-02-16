@@ -90,7 +90,7 @@ DATABASES = {
         'USER': 'postgres.uefwouubwegsbinwabvh',
         'PASSWORD': 'Lzu4uBH6QlcvAk2G',
         'HOST': 'aws-0-[region].pooler.supabase.com',  # Changed from db.xxx.supabase.co
-        'PORT': '5432',  # Changed from 5432
+        'PORT': '6543',  # Changed from 5432
         'OPTIONS': {
             'options': '-c search_path=public'
         }
