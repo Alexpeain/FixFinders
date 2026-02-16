@@ -12,6 +12,12 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # We manually add your specific domain
 ALLOWED_HOSTS = ["fixfinders.onrender.com"]
 
+# Add your Render domain here.
+# IMPORTANT: It must include 'https://'
+CSRF_TRUSTED_ORIGINS = [
+    'https://fixfinders.onrender.com',
+]
+
 # Render automatically sets this variable. If it exists, we add it too.
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
