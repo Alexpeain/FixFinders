@@ -2,6 +2,7 @@
 
 FixFinders is a service provider directory app, a Django-based backend application being developed to connect users with local service providers in Myanmar.  
 It focuses on practical features like search, listings, and bookings tailored to the local context.
+2026
 
 ---
 
