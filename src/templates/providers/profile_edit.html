@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Profile - Fix Finder{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="mb-0">Your Public Profile</h2>
+                    <div>
+                        <!-- FIXED STATUS BADGE RENDERING -->
+                        {% if user.provider_profile.is_verified %}
+                        <span class="badge bg-success">Verified ✅</span>
+                        {% else %}
+                        <span class="badge bg-warning text-dark">Status: {{
+                            user.provider_profile.get_verification_status_display }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% if user.provider_profile.verification_status == 'rejected' %}
+                <div class="alert alert-danger mb-4">
+                    <h5 class="alert-heading">Verification Rejected</h5>
+                    <p class="mb-0">Reason: {{ user.provider_profile.rejection_reason }}</p>
+                    <hr>
+                    <a href="{% url 'providers:profile_complete' %}" class="btn btn-sm btn-danger">Re-submit
+                        Documents</a>
+                </div>
+                {% endif %}
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Business Name</label>
+                            {{ form.business_name }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Category</label>
+                            {{ form.category }}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Township</label>
+                            {{ form.township }}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Phone Number</label>
+                            {{ form.phone_number }}
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        {{ form.description }}
+                    </div>
+
+                    <div class="d-grid gap-2 mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg">Update Profile</button>
+                    </div>
+                </form>
+
+                <hr class="my-5">
+                <div class="bg-light p-4 rounded border">
+                    <h5 class="mb-3">Verification Details</h5>
+                    <div class="row">
+                        <div class="col-6 text-center">
+                            <small class="text-muted d-block mb-1">Pink Card</small>
+                            {% if user.provider_profile.verification_photo_pink_card %}
+                            <span class="badge bg-success">Uploaded</span>
+                            {% else %}
+                            <span class="badge bg-secondary">Missing</span>
+                            {% endif %}
+                        </div>
+                        <div class="col-6 text-center">
+                            <small class="text-muted d-block mb-1">Smart Card</small>
+                            {% if user.provider_profile.verification_photo_smart_card %}
+                            <span class="badge bg-success">Uploaded</span>
+                            {% else %}
+                            <span class="badge bg-secondary">Missing</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

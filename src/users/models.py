@@ -8,8 +8,11 @@ class User(AbstractUser):
     We inherit from AbstractUser to keep all standard Django auth features
     (username, password, permissions) but allow future customization.
     """
-    # We can add global fields here later if needed
-    # e.g., is_provider = models.BooleanField(default=False)
+    ROLE_CHOICES = (
+        ('provider', 'Provider'),
+        ('admin', 'Admin'),
+    )
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='provider')
     
     def __str__(self):
-        return self.username
+        return f"{self.username} ({self.get_role_display()})"

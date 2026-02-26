@@ -31,9 +31,23 @@ class ProviderProfile(models.Model):
     phone_number = models.CharField(max_length=20)
     description = models.TextField(blank=True)
     
-    # Verification
+    # Verification Status
+    VERIFICATION_STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected'),
+    ]
+    verification_status = models.CharField(
+        max_length=10, 
+        choices=VERIFICATION_STATUS_CHOICES, 
+        default='pending'
+    )
     is_verified = models.BooleanField(default=False)
-    verification_photo = models.ImageField(upload_to='private_ids/', blank=True, null=True)
+    rejection_reason = models.TextField(blank=True, null=True)
+
+    # Documents
+    verification_photo_pink_card = models.ImageField(upload_to='verification_docs/', blank=True, null=True)
+    verification_photo_smart_card = models.ImageField(upload_to='verification_docs/', blank=True, null=True)
 
     # ADD THIS LINE:
     created_at = models.DateTimeField(auto_now_add=True) 
