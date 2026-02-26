@@ -9,19 +9,20 @@ DEBUG = False
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # 3. ALLOWED HOSTS: Define who can access your site
-# We manually add your specific domain
 ALLOWED_HOSTS = ["fixfinders.onrender.com"]
-
-# Add your Render domain here.
-# IMPORTANT: It must include 'https://'
-CSRF_TRUSTED_ORIGINS = [
-    'https://fixfinders.onrender.com',
-]
 
 # Render automatically sets this variable. If it exists, we add it too.
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+
+# CSRF Trusted Origins: Crucial for login to work on Render
+CSRF_TRUSTED_ORIGINS = [
+    'https://fixfinders.onrender.com',
+]
+
+if RENDER_EXTERNAL_HOSTNAME:
+    CSRF_TRUSTED_ORIGINS.append(f'https://{RENDER_EXTERNAL_HOSTNAME}')
 
 # 4. DATABASE: Configure PostgreSQL connection
 # We use the clean syntax that avoids "invalid syntax" errors
@@ -50,7 +51,9 @@ SECURE_SSL_REDIRECT = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
 
 # 7. LOGGING: Crucial for debugging 500 errors
 # This ensures errors are printed to Render logs even when DEBUG=False
