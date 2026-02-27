@@ -8,6 +8,19 @@ wheels/
 
 # Virtual environments
 .venv
-db.sqlite3
 
+# Django
+db.sqlite3
+media/
+
+# Environment / secrets
+.env
+*.env
+.env.*
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
 DailyLogs/AI

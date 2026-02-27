@@ -52,5 +52,22 @@ class ProviderProfile(models.Model):
     # ADD THIS LINE:
     created_at = models.DateTimeField(auto_now_add=True) 
 
+    # --- BADGE PROPERTIES ADDED HERE ---
+    @property
+    def badge_css_class(self):
+        if self.verification_status == 'approved' or self.is_verified:
+            return 'bg-success'
+        elif self.verification_status == 'rejected':
+            return 'bg-danger'
+        return 'bg-warning text-dark'
+
+    @property
+    def badge_text(self):
+        if self.is_verified and self.verification_status != 'approved':
+            return 'Verified'
+        return self.get_verification_status_display()
+    # -----------------------------------
+
     def __str__(self):
         return f"{self.business_name} ({self.township})"
+
