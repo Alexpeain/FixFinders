@@ -1,0 +1,47 @@
+[
+{
+  "model": "providers.category",
+  "pk": 1,
+  "fields": {
+    "name": "House Maid (မႄႈဝၢၼ်ႈ)",
+    "slug": "house-maid",
+    "icon": "🔧"
+  }
+},
+{
+  "model": "providers.category",
+  "pk": 2,
+  "fields": {
+    "name": "Plumber / ၸၢင်ႈၼမ်ႉ",
+    "slug": "plumber",
+    "icon": "🔧"
+  }
+},
+{
+  "model": "providers.category",
+  "pk": 3,
+  "fields": {
+    "name": "Electrician",
+    "slug": "electrician",
+    "icon": "🔧"
+  }
+},
+{
+  "model": "providers.category",
+  "pk": 4,
+  "fields": {
+    "name": "Satellite",
+    "slug": "satellite",
+    "icon": "🔧"
+  }
+},
+{
+  "model": "providers.category",
+  "pk": 5,
+  "fields": {
+    "name": "Customs Broker & Logistics",
+    "slug": "customs-broker-logistics",
+    "icon": "🔧"
+  }
+}
+]
