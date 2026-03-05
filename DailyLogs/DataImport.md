@@ -13,4 +13,7 @@ Generating Mock Data:
 - We use a Python script to generate mock provider data. This script creates realistic entries for providers, including names, contact information, and service details.
 - The generated data is saved in a JSON format, which can be easily imported into the Supabase database.
 
-Importing Data into Supabase:
+Importing Data into Supabase from local machine:
+
+- using script `python DATABASE_URL = "your_supabase_database_url" ` to connect to the database and insert the generated data.
+- The script handles the insertion of data while respecting the database schema and constraints.```

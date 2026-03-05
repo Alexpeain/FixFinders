@@ -9,12 +9,19 @@ https://docs.djangoproject.com/en/6.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
-
+import environ
 from pathlib import Path
 import sys
 
+# Initialize env
+env = environ.Env()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
+
+# Load .env file
+environ.Env.read_env(BASE_DIR / '.env')
+
 sys.path.append(str(BASE_DIR / 'src')) # look for src
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
@@ -39,6 +46,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'users',
     'providers',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google', 
     
 ]
 
@@ -51,6 +62,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -90,7 +102,7 @@ DATABASES = {
         'USER': 'postgres.uefwouubwegsbinwabvh',
         'PASSWORD': 'Lzu4uBH6QlcvAk2G',
         'HOST': 'aws-0-[region].pooler.supabase.com',  # Changed from db.xxx.supabase.co
-        'PORT': '6543        python manage.py generate_mock_providers --settings=config.settings.production',  # Changed from 5432
+        'PORT': '6543',  # Changed from 5432
         'OPTIONS': {
             'options': '-c search_path=public'
         }
@@ -140,3 +152,17 @@ AUTH_USER_MODEL = 'users.User'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+SITE_ID = 1
+AUTHENTICATION_BACKENDS = ['allauth.account.auth_backends.AuthenticationBackend']
+
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        "SCOPE": ["profile", "email"],
+        "AUTH_PARAMS": {"access_type": "online"},
+        "APP": {
+            "client_id": env("GOOGLE_CLIENT_ID"),
+            "secret": env("GOOGLE_CLIENT_SECRET"),
+        },
+    }
+}
