@@ -43,6 +43,4 @@ source .venv/bin/activate
 # 5. Add core dependencies (updates pyproject.toml & installs to venv)
 uv add django psycopg2-binary pillow django-cleanup
 
-# 6. Create Django project (only once when starting the project)
-django-admin startproject config .
-```
+
