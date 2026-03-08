@@ -9,10 +9,11 @@ class User(AbstractUser):
     (username, password, permissions) but allow future customization.
     """
     ROLE_CHOICES = (
+        ('customer', 'Customer'),
         ('provider', 'Provider'),
         ('admin', 'Admin'),
     )
-    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='provider')
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='customer')
     
     def __str__(self):
         return f"{self.username} ({self.get_role_display()})"

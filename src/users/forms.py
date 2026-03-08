@@ -4,9 +4,10 @@ from .models import User
 
 class CustomUserCreationForm(UserCreationForm):
     role = forms.ChoiceField(
-        choices=[('provider', 'Provider')], 
-        required=True, 
-        help_text="Register as a Service Provider"
+        choices=[('customer', 'Looking for Services'), ('provider', 'Service Provider')], 
+        required=True,
+        initial='customer',
+        help_text="Choose how you want to use the platform"
     )
 
     class Meta(UserCreationForm.Meta):

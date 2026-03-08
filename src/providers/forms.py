@@ -1,5 +1,5 @@
 from django import forms
-from .models import ProviderProfile, Category
+from .models import ProviderProfile, Category, Review
 
 class ProviderProfileForm(forms.ModelForm):
     class Meta:
@@ -34,4 +34,14 @@ class ProviderUpdateForm(forms.ModelForm):
         fields = ['business_name', 'category', 'township', 'phone_number', 'description']
         widgets = {
             'description': forms.Textarea(attrs={'rows': 4}),
+        }
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = ['reviewer_name', 'rating', 'comment']
+        widgets = {
+            'comment': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}),
+            'rating': forms.Select(attrs={'class': 'form-select'}),
+            'reviewer_name': forms.TextInput(attrs={'class': 'form-control'})
         }

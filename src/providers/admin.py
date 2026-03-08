@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth import get_user_model
-from .models import Category, ProviderProfile
+from .models import Category, ProviderProfile, Review
 import uuid
 
 User = get_user_model()
@@ -21,3 +21,15 @@ class ProviderProfileAdmin(admin.ModelAdmin):
             user = User.objects.create_user(username=username, password='password123')
             obj.user = user
         super().save_model(request, obj, form, change)
+
+
+@admin.register(Review)
+class ReviewAdmin(admin.ModelAdmin):
+    list_display = ('provider', 'reviewer_name', 'rating', 'is_approved', 'created_at')
+    list_filter = ('is_approved', 'rating', 'created_at')
+    search_fields = ('reviewer_name', 'comment', 'provider__business_name')
+    actions = ['approve_reviews']
+
+    def approve_reviews(self, request, queryset):
+        queryset.update(is_approved=True)
+    approve_reviews.short_description = "Approve selected reviews"

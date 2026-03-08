@@ -3,7 +3,7 @@
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-8">
-        
+
         <!-- Back Button -->
         <a href="{% url 'providers:list' %}" class="text-decoration-none text-muted mb-3 d-inline-block">
             &larr; Back to Results
@@ -12,17 +12,19 @@
         <!-- Main Profile Card -->
         <div class="card shadow-sm border-0">
             <div class="card-body p-4">
-                
+
                 <!-- Header: Photo & Name -->
                 <div class="text-center mb-4">
-                    <div class="bg-light rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 100px; height: 100px;">
+                    <div class="bg-light rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3"
+                        style="width: 100px; height: 100px;">
                         <span style="font-size: 3rem;">👤</span>
                     </div>
                     <h2 class="fw-bold mb-1">{{ provider.business_name }}</h2>
                     <p class="text-muted">{{ provider.category.name }} • {{ provider.township }}</p>
-                    
+
                     {% if provider.is_verified %}
-                    <span class="badge bg-success bg-opacity-10 text-success border border-success px-3 py-2 rounded-pill">
+                    <span
+                        class="badge bg-success bg-opacity-10 text-success border border-success px-3 py-2 rounded-pill">
                         ✅ ID Verified Provider
                     </span>
                     {% else %}
@@ -39,9 +41,9 @@
                     <h5 class="fw-bold">About</h5>
                     <p class="text-muted">
                         {% if provider.description %}
-                            {{ provider.description|linebreaks }}
+                        {{ provider.description|linebreaks }}
                         {% else %}
-                            No description provided yet.
+                        No description provided yet.
                         {% endif %}
                     </p>
                 </div>
@@ -61,7 +63,63 @@
 
         <!-- Safety Tip -->
         <div class="alert alert-info mt-4 border-0 bg-light">
-            <small><strong>Safety Tip:</strong> Always agree on the price before work starts. Pay only after the job is done.</small>
+            <small><strong>Safety Tip:</strong> Always agree on the price before work starts. Pay only after the job is
+                done.</small>
+        </div>
+
+        <!-- Reviews Section -->
+        <div class="card shadow-sm border-0 mt-4 mb-5">
+            <div class="card-body p-4">
+                <h4 class="fw-bold mb-4">Reviews</h4>
+
+                <div class="mb-4">
+                    {% if reviews %}
+                    {% for review in reviews %}
+                    <div class="mb-3 border-bottom pb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <strong>{{ review.reviewer_name }}</strong>
+                            <span class="text-warning">
+                                {% for i in "12345" %}
+                                {% if forloop.counter <= review.rating %}★{% else %}☆{% endif %} {% endfor %} </span>
+                        </div>
+                        <small class="text-muted d-block mb-2">{{ review.created_at|date:"F j, Y" }}</small>
+                        <p class="mb-0 text-muted">{{ review.comment }}</p>
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    <p class="text-muted">No reviews yet. Be the first to leave a review!</p>
+                    {% endif %}
+                </div>
+
+                <h5 class="fw-bold mt-5 mb-3">Leave a Review</h5>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label text-muted fw-bold">Your Name</label>
+                        {{ review_form.reviewer_name }}
+                        {% if review_form.reviewer_name.errors %}
+                        <div class="text-danger small">{{ review_form.reviewer_name.errors|striptags }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-muted fw-bold">Rating</label>
+                        {{ review_form.rating }}
+                        {% if review_form.rating.errors %}
+                        <div class="text-danger small">{{ review_form.rating.errors|striptags }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-muted fw-bold">Comment</label>
+                        {{ review_form.comment }}
+                        {% if review_form.comment.errors %}
+                        <div class="text-danger small">{{ review_form.comment.errors|striptags }}</div>
+                        {% endif %}
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 py-2">Submit Review</button>
+                    <small class="text-muted mt-3 d-block text-center border-top py-2">Your review will be public after
+                        an admin reviews it.</small>
+                </form>
+            </div>
         </div>
 
     </div>

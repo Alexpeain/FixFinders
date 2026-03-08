@@ -5,7 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
 from django.db.models import Q
 from .models import ProviderProfile, Category
-from .forms import ProviderProfileForm, ProviderUpdateForm
+from .forms import ProviderProfileForm, ProviderUpdateForm, ReviewForm
 
 class AdminRequiredMixin(UserPassesTestMixin):
     def test_func(self):
@@ -68,6 +68,35 @@ class ProviderDetailView(DetailView):
         if self.request.user.is_authenticated and self.request.user.role == 'admin':
             return ProviderProfile.objects.all()
         return ProviderProfile.objects.filter(is_verified=True)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['reviews'] = self.object.reviews.filter(is_approved=True).order_by('-created_at')
+        if 'review_form' not in context:
+            context['review_form'] = ReviewForm()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.provider = self.object
+            if request.user.is_authenticated:
+                review.user = request.user
+                # Optionally use the user's username if they didn't provide a name
+                if not review.reviewer_name:
+                    review.reviewer_name = request.user.username
+            elif not review.reviewer_name:
+                review.reviewer_name = "Anonymous"
+            review.save()
+            messages.success(request, "Your review has been submitted and is pending approval.")
+            from django.shortcuts import redirect
+            return redirect('providers:detail', pk=self.object.pk)
+        
+        context = self.get_context_data(object=self.object)
+        context['review_form'] = form
+        return self.render_to_response(context)
 
 # --- Verification Views ---
 
